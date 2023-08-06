@@ -1,18 +1,18 @@
 resource "aws_autoscaling_group" "this" {
   name             = "${var.project}-ScalingGroup"
-  desired_capacity = 3
-  max_size         = 5
-  min_size         = 3
+  desired_capacity = var.scaling_group_desired_capacity
+  max_size         = var.scaling_group_max_size
+  min_size         = var.scaling_group_min_size
 
   vpc_zone_identifier = var.private_subnet[*]
   target_group_arns   = [aws_alb_target_group.this.arn]
 
-  health_check_grace_period = 300
-  health_check_type         = "EC2"
+  health_check_grace_period = var.scaling_group_health_check_grace_period
+  health_check_type         = var.scaling_group_health_check_type
 
   launch_template {
     id      = aws_launch_template.this.id
-    version = "$Latest"
+    version = var.scaling_group_launch_template_verson
   }
 
   instance_refresh {
@@ -21,7 +21,7 @@ resource "aws_autoscaling_group" "this" {
       instance_warmup        = 300
       min_healthy_percentage = 50
     }
-    triggers = ["desired_capacity"]
+    triggers = var.scaling_group_instance_fresh_triggers
   }
 
   tag {

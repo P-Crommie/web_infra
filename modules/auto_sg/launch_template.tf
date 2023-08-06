@@ -1,15 +1,15 @@
 resource "aws_launch_template" "this" {
   name          = "${var.project}-LaunchTemplate"
-  image_id      = "ami-01dd271720c1ba44f"
-  instance_type = "t3a.micro"
+  image_id      = var.launch_template_image_id
+  instance_type = var.launch_template_instance_type
 
-  # vpc_security_group_ids = [var.vpc_traffic_sg, var.asg_sg, var.outside_traffic_sg]
   vpc_security_group_ids = [var.vpc_traffic_sg, var.asg_sg]
   key_name               = var.key_name
 
   user_data              = filebase64("${path.module}/userdata/httpd.sh")
-  ebs_optimized          = true
-  update_default_version = true
+  ebs_optimized          = var.launch_template_ebs_optimized
+  update_default_version = var.launch_template_update_default_version
+
   block_device_mappings {
     device_name = "/dev/sda1"
     ebs {
@@ -18,11 +18,11 @@ resource "aws_launch_template" "this" {
     }
   }
 
-  disable_api_stop        = true
-  disable_api_termination = true
+  disable_api_stop        = var.launch_template_disable_api_stop
+  disable_api_termination = var.launch_template_disable_api_termination
 
   monitoring {
-    enabled = true
+    enabled = var.launch_template_monitoring
   }
 
   tag_specifications {

@@ -1,8 +1,8 @@
 resource "aws_instance" "bastion" {
-  ami           = "ami-01dd271720c1ba44f"
-  instance_type = "t2.micro"
-  key_name      = var.key_name
-  # vpc_security_group_ids      = [var.ssh_sg, var.vpc_traffic_sg, var.outside_traffic_sg]
+  count                       = var.enable_bastionHost == true ? 1 : 0
+  ami                         = var.bastionHost_ami
+  instance_type               = var.bastionHost_instance_type
+  key_name                    = var.key_name
   vpc_security_group_ids      = [var.ssh_sg, var.vpc_traffic_sg]
   subnet_id                   = var.public_subnet[1]
   associate_public_ip_address = false
@@ -30,6 +30,7 @@ resource "aws_instance" "bastion" {
 }
 
 resource "aws_eip" "bastion" {
+  count  = var.enable_bastionHost == true ? 1 : 0
   domain = "vpc"
 
   tags = {
@@ -38,17 +39,18 @@ resource "aws_eip" "bastion" {
 }
 
 resource "aws_eip_association" "bastion" {
-  instance_id   = aws_instance.bastion.id
-  allocation_id = aws_eip.bastion.id
+  count         = var.enable_bastionHost == true ? 1 : 0
+  instance_id   = aws_instance.bastion[0].id
+  allocation_id = aws_eip.bastion[0].id
 }
 
 resource "null_resource" "this" {
-
+  count = var.enable_bastionHost == true ? 1 : 0
   connection {
     type        = "ssh"
-    user        = "ubuntu"
+    user        = var.null_resource_connection_user
     private_key = file("${var.user_home_directory}/.ssh/${var.key_name}.pem")
-    host        = aws_eip.bastion.public_ip
+    host        = aws_eip.bastion[0].public_ip
     timeout     = 2
   }
 

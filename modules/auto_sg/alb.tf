@@ -1,6 +1,5 @@
 resource "aws_alb" "this" {
   name = "${var.project}-ALB"
-  # security_groups = [var.http_sg, var.https_sg, var.vpc_traffic_sg, var.outside_traffic_sg]
   security_groups = [var.http_sg, var.https_sg, var.vpc_traffic_sg]
   subnets         = var.public_subnet[*]
 
