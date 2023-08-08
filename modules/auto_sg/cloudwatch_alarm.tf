@@ -13,6 +13,12 @@ resource "aws_cloudwatch_metric_alarm" "scale_up" {
   }
   actions_enabled = true
   alarm_actions   = [aws_autoscaling_policy.scale_up.arn]
+
+  tags = merge(
+    var.tags,
+    {
+      Name = "${var.project}-ScaleUpAlarm"
+  })
 }
 
 resource "aws_cloudwatch_metric_alarm" "scale_down" {
@@ -30,4 +36,10 @@ resource "aws_cloudwatch_metric_alarm" "scale_down" {
   }
   actions_enabled = true
   alarm_actions   = [aws_autoscaling_policy.scale_down.arn]
+
+  tags = merge(
+    var.tags,
+    {
+      Name = "${var.project}-ScaleDownAlarm"
+  })
 }

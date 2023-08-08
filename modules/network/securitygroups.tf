@@ -15,9 +15,11 @@ resource "aws_security_group" "http" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  tags = {
-    Name = "${var.project}-http"
-  }
+  tags = merge(
+    var.tags,
+    {
+      Name = "${var.project}-http"
+  })
 }
 
 resource "aws_security_group" "https" {
@@ -37,9 +39,11 @@ resource "aws_security_group" "https" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  tags = {
-    Name = "${var.project}-https"
-  }
+  tags = merge(
+    var.tags,
+    {
+      Name = "${var.project}-https"
+  })
 }
 
 resource "aws_security_group" "db" {
@@ -52,9 +56,11 @@ resource "aws_security_group" "db" {
     protocol        = "tcp"
     security_groups = [aws_security_group.vpc_traffic.id]
   }
-  tags = {
-    Name = "${var.project}-db"
-  }
+  tags = merge(
+    var.tags,
+    {
+      Name = "${var.project}-db"
+  })
 }
 
 resource "aws_security_group" "ssh" {
@@ -75,9 +81,11 @@ resource "aws_security_group" "ssh" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = {
-    Name = "${var.project}-ssh"
-  }
+  tags = merge(
+    var.tags,
+    {
+      Name = "${var.project}-ssh"
+  })
 }
 
 resource "aws_security_group" "vpc_traffic" {
@@ -97,35 +105,12 @@ resource "aws_security_group" "vpc_traffic" {
     protocol    = "tcp"
     cidr_blocks = [var.vpc_cidr]
   }
-
-  tags = {
-    Name = "${var.project}-vpc_traffic"
-  }
+  tags = merge(
+    var.tags,
+    {
+      Name = "${var.project}-vpc_traffic"
+  })
 }
-
-# resource "aws_security_group" "outside" {
-#   name   = "${var.project}-outside"
-#   vpc_id = aws_vpc.this.id
-
-#   ingress {
-#     from_port   = 0
-#     to_port     = 0
-#     protocol    = "tcp"
-#     cidr_blocks = [var.vpc_cidr]
-#   }
-
-#   egress {
-#     from_port   = 0
-#     to_port     = 0
-#     protocol    = -1
-#     cidr_blocks = ["0.0.0.0/0"]
-#   }
-
-#   tags = {
-#     Name = "${var.project}-outside"
-#   }
-# }
-
 
 resource "aws_security_group" "asg" {
   name   = "${var.project}-asg"
@@ -152,7 +137,9 @@ resource "aws_security_group" "asg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = {
-    Name = "${var.project}-asg"
-  }
+  tags = merge(
+    var.tags,
+    {
+      Name = "${var.project}-asg"
+  })
 }

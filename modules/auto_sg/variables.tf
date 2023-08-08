@@ -1,12 +1,16 @@
-variable "private_subnet" {}
-variable "public_subnet" {}
+variable "private_subnet" {
+  type = list(any)
+}
+variable "public_subnet" {
+  type = list(any)
+}
 variable "asg_sg" {}
 variable "https_sg" {}
 variable "http_sg" {}
 variable "db_sg" {}
 variable "ssh_sg" {}
 variable "vpc_traffic_sg" {}
-variable "availability_zones" {}
+
 variable "vpc_id" {}
 
 variable "project" {
@@ -47,7 +51,7 @@ variable "scaling_group_launch_template_verson" {
 }
 
 variable "scaling_group_instance_fresh_triggers" {
-  type = list
+  type = list(any)
 }
 
 variable "launch_template_image_id" {
@@ -75,51 +79,51 @@ variable "launch_template_disable_api_termination" {
 }
 
 variable "launch_template_monitoring" {
-  type    = bool
+  type = bool
 }
 
 variable "db_instance_engine" {
-  type    = string
+  type = string
 }
 
 variable "db_instance_engine_version" {
-  type    = string
+  type = string
 }
 
 variable "db_instance_instance_class" {
-  type    = string
+  type = string
 }
 
 variable "db_instance_allocated_storage" {
-  type    = number
+  type = number
 }
 
 variable "db_instance_max_allocated_storage" {
-  type    = string
+  type = string
 }
 
 variable "db_instance_db_name" {
-  type    = string
+  type = string
 }
 
 variable "db_instance_username" {
-  type    = string
+  type = string
 }
 
 variable "db_instance_password" {
-  type    = string
+  type = string
 }
 
 variable "db_instance_parameter_group_name" {
-  type    = string
+  type = string
 }
 
 variable "db_instance_backup_retention_period" {
-  type    = number
+  type = number
 }
 
 variable "db_instance_skip_final_snapshot" {
-  type    = bool
+  type = bool
 }
 
 variable "enable_bastionHost" {
@@ -136,4 +140,8 @@ variable "bastionHost_instance_type" {
 
 variable "null_resource_connection_user" {
   type = string
+}
+
+variable "tags" {
+  type = map(any)
 }

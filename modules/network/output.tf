@@ -31,14 +31,6 @@ output "vpc_traffic_sg" {
   value = aws_security_group.vpc_traffic.id
 }
 
-# output "outside_traffic_sg" {
-#   value = aws_security_group.outside.id
-# }
-
-output "availability_zones" {
-  value = data.aws_availability_zones.this[*].id
-}
-
 output "vpc_id" {
   value = aws_vpc.this.id
 }

@@ -1,5 +1,9 @@
 #!/bin/bash
 
+sudo hostnamectl set-hostname webApp
+
+sleep 30
+
 # Update package repository and install httpd
 sudo apt update -y
 sudo apt install -y apache2
@@ -8,5 +12,4 @@ sudo apt install -y apache2
 sudo systemctl start apache2
 sudo systemctl enable apache2
 
-sudo hostnamectl set-hostname webApp
 sudo reboot

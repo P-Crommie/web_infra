@@ -13,14 +13,18 @@ resource "aws_instance" "bastion" {
     delete_on_termination = true
     volume_type           = "gp2"
 
-    tags = {
-      Name = "${var.project}-bastion-host-volume"
-    }
+    tags = merge(
+      var.tags,
+      {
+        Name = "${var.project}-bastionHost-volume"
+    })
   }
 
-  tags = {
-    Name = "${var.project}-bastion"
-  }
+  tags = merge(
+    var.tags,
+    {
+      Name = "${var.project}-Bastion"
+  })
 
   lifecycle {
     ignore_changes = [
@@ -33,9 +37,11 @@ resource "aws_eip" "bastion" {
   count  = var.enable_bastionHost == true ? 1 : 0
   domain = "vpc"
 
-  tags = {
-    Name = "${var.project}-Bastion-ElaticIP"
-  }
+  tags = merge(
+    var.tags,
+    {
+      Name = "${var.project}-bastionHost-ElasticIP"
+  })
 }
 
 resource "aws_eip_association" "bastion" {

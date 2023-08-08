@@ -2,9 +2,11 @@ resource "aws_db_subnet_group" "this" {
   name       = "${var.project}-db-subnetgroup"
   subnet_ids = var.private_subnet[*]
 
-  tags = {
-    Name = "${var.project}-db-SubnetGroup"
-  }
+  tags = merge(
+    var.tags,
+    {
+      Name = "${var.project}-db-SubnetGroup"
+  })
 }
 
 resource "aws_db_instance" "this" {
@@ -29,9 +31,11 @@ resource "aws_db_instance" "this" {
     update = "1h"
   }
 
-  tags = {
-    Name = "${var.project}-db"
-  }
+  tags = merge(
+    var.tags,
+    {
+      Name = "${var.project}-db"
+  })
 }
 
 output "db_endpoint" {

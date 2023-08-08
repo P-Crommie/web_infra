@@ -27,8 +27,10 @@ resource "aws_launch_template" "this" {
 
   tag_specifications {
     resource_type = "instance"
-    tags = {
-      Name = "${var.project}-LaunchTemplate"
-    }
+    tags = merge(
+      var.tags,
+      {
+        Name = "${var.project}-LaunchTemplate"
+    })
   }
 }

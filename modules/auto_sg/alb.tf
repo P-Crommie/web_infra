@@ -3,9 +3,11 @@ resource "aws_alb" "this" {
   security_groups = [var.http_sg, var.https_sg, var.vpc_traffic_sg]
   subnets         = var.public_subnet[*]
 
-  tags = {
-    Name = "${var.project}-ALB"
-  }
+  tags = merge(
+    var.tags,
+    {
+      Name = "${var.project}-ALB"
+  })
 }
 
 resource "aws_alb_target_group" "this" {
@@ -25,9 +27,11 @@ resource "aws_alb_target_group" "this" {
     matcher             = "200,202,301"
   }
 
-  tags = {
-    Name = "${var.project}-ALB-TargetGroup"
-  }
+  tags = merge(
+    var.tags,
+    {
+      Name = "${var.project}-ALB-TargetGroup"
+  })
 }
 
 resource "aws_alb_listener" "this" {
@@ -39,6 +43,11 @@ resource "aws_alb_listener" "this" {
     target_group_arn = aws_alb_target_group.this.arn
     type             = "forward"
   }
+    tags = merge(
+    var.tags,
+    {
+      Name = "${var.project}-ALB-Listener"
+  })
 }
 
 output "alb_public_dns" {
