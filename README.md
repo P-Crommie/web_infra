@@ -50,6 +50,7 @@ The project structure is as folows:
 ```
 
 # Architecture
+
 ![architecture](./assets/web-infra.jpg)
 
 The main components of the project are as follows:
@@ -67,7 +68,7 @@ To deploy the architecture using Terragrunt:
 
 1. Clone the repository to your local environment.
 2. Navigate to the dev directory.
-3. Adjust environment-specific variables in **.hcl** and **.tfvars** files.
+3. Adjust environment-specific variables in **.hcl** and **.tfvars** files. Set a .tfvars file in the root of **dev** dir to handle the rds credetional variables.
 4. Apply the configurations using Terragrunt:
 
 ```
