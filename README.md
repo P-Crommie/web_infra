@@ -5,7 +5,6 @@ This project establishes a resilient AWS environment featuring an auto-scaling E
 ## Project Highlights
 
 * **Architecture** : Leverage Terraform and Terragrunt to craft an adaptive AWS setup. This includes an auto-scaling EC2 arrangement complemented by a load balancer and an RDS instance, ensuring both scalability and security.
-
 * **Modularity** : The project is structured into two pivotal modules — the Network Module and the Auto Scaling Group Module. This separation streamlines development and management.
 * **Terragrunt Benefits** : The integration of Terragrunt simplifies module deployment and administration, enabling enhanced reusability and configuration control.
 
@@ -51,8 +50,7 @@ The project structure is as folows:
 ```
 
 # Architecture
-
-![1691588639501](image/README/1691588639501.png)
+![architecture](./assets/web-infra.jpg)
 
 The main components of the project are as follows:
 
